@@ -1,8 +1,9 @@
 from typing import Final
 
-from flask import Flask, render_template
+from flask import Flask
 
 from socialnetwork.core import info
+from socialnetwork.core import renderer
 
 app: Final[Flask] = Flask(
     __name__,
@@ -13,7 +14,17 @@ app: Final[Flask] = Flask(
 
 @app.route("/")
 def index() -> str:
-    return render_template("index.html")
+    return renderer.get_template("index.html")
+
+
+@app.route("/login")
+def login() -> str:
+    return renderer.get_template("login.html")
+
+
+@app.route("/register")
+def register() -> str:
+    return renderer.get_template("register.html")
 
 
 if __name__ == "__main__":

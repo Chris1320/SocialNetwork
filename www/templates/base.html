@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <title>{% block title %} {% endblock %} - {{ BRAND_NAME }}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+            {% block header %}
+            <nav>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('login') }}">Login/Register</a></li>
+                <li><a href="{{ url_for('index') }}">About</a></li>
+            </nav>
+            {% endblock %}
+        </header>
+        <main>
+            {% block main %}
+            <h2 class="wip">This page is currently under development.</h2>
+            {% endblock %}
+        </main>
+        <footer>
+            {% block footer %}
+            <hr />
+            <p>&copy; {{ YEAR }} {{ BRAND_NAME }}</p>
+            {% endblock %}
+        </footer>
+    </body>
+</html>

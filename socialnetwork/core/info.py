@@ -11,6 +11,11 @@ class Server:
 
 
 @dataclass
+class Brand:
+    name: str = "Z"
+
+
+@dataclass
 class Filepath:
     html_templates: Path = Path(os.getcwd(), "www", "templates")
     static_files: Path = Path(os.getcwd(), "www", "static")
