@@ -1,0 +1,20 @@
+from typing import Final
+
+from flask import Flask, render_template
+
+from socialnetwork.core import info
+
+app: Final[Flask] = Flask(
+    __name__,
+    template_folder=info.Filepath.html_templates,
+    static_folder=info.Filepath.static_files,
+)
+
+
+@app.route("/")
+def index() -> str:
+    return render_template("index.html")
+
+
+if __name__ == "__main__":
+    app.run(host=info.Server.host, port=info.Server.port, debug=info.Server.debug)
