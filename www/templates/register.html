@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block title %}Create a New Account{% endblock %} {% block main %}
+<h1>Social Network - Register</h1>
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+<form action="/register" method="POST">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" />
+    </div>
+    <div>
+        <label for="password-confirm">Password:</label>
+        <input type="password" name="password-confirm" id="password-confirm" />
+    </div>
+    <div>
+        <input type="submit" value="Login" />
+    </div>
+</form>
+
+{% endblock %}

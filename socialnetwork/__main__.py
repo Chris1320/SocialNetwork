@@ -4,7 +4,7 @@ from typing import Final
 
 from flask import Flask, request
 
-from socialnetwork.core import database_manager, info, renderer
+from socialnetwork.core import database_manager, info, renderer, user_manager
 
 # Set up the logger.
 logger: Final[logging.Logger] = logging.getLogger(__name__)
@@ -39,8 +39,27 @@ def login() -> str:
     return renderer.get_template("login.html")
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register() -> str:
+    if request.method == "POST":
+        username: str = request.form["username"]
+        password: str = request.form["password"]
+        password_confirm: str = request.form["password-confirm"]
+        logger.debug(f"{username=} {password=} {password_confirm=}")
+
+        if password != password_confirm:
+            return renderer.get_template(
+                "register.html", error="Passwords do not match."
+            )
+
+        else:
+            try:
+                user_manager.UserManager().register_user(username, password)
+                return renderer.get_template("index.html", server_message="User created.")
+
+            except ValueError as error:
+                return renderer.get_template("register.html", error=str(error))
+
     return renderer.get_template("register.html")
 
 

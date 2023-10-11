@@ -17,6 +17,13 @@
             {% endblock %}
         </header>
         <main>
+            {% block notify %}
+                {% if server_message %}
+                <div class="server-message">
+                    <p>{{ server_message }}</p>
+                </div>
+                {% endif %}
+            {% endblock %}
             {% block main %}
             <h2 class="wip">This page is currently under development.</h2>
             {% endblock %}
