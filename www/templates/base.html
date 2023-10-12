@@ -4,13 +4,9 @@
         {% block head %}
         <title>{% block title%}{{ BRAND_NAME }}{% endblock %}</title>
         <meta charset="utf-8" />
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='css/main.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
         {% endblock %}
     </head>
-
     <body>
         <header>
             {% block header %}
@@ -22,7 +18,7 @@
                     {% else %}
                     <li><a href="{{ url_for('login') }}">Login/Register</a></li>
                     {% endif %}
-                    <li><a href="{{ url_for('index') }}">About</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
                 </ul>
             </nav>
             {% endblock %}

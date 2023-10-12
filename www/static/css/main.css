@@ -1,4 +1,8 @@
-body > header > nav ul > li {
+* {
+    font-family: sans-serif;
+}
+
+body > header > nav ul > li {  /* The horizontal navbar */
     display: inline-block;
     padding: 10px;
 }

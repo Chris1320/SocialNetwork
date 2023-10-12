@@ -2,7 +2,8 @@ import logging
 from time import strftime
 from typing import Final
 
-from flask import Flask, Response, redirect, request, session, url_for
+from flask import Flask, redirect, request, session, url_for
+from werkzeug.wrappers import Response as WerkzeugResponse
 
 from flask_session import Session
 from socialnetwork.core import database_manager, info, renderer, user_manager
@@ -41,8 +42,17 @@ def index() -> str:
     return renderer.get_template("newsfeed.html")
 
 
+@app.route("/about")
+def about() -> str:
+    """
+    Show the about page of the site.
+    """
+
+    return renderer.get_template("about.html")
+
+
 @app.route("/login", methods=["GET", "POST"])
-def login() -> str | Response:
+def login() -> str | WerkzeugResponse:
     """
     Show the login form, or process the login form if it was POSTed.
     """
@@ -67,7 +77,7 @@ def login() -> str | Response:
 
 
 @app.route("/logout")
-def logout() -> Response:
+def logout() -> WerkzeugResponse:
     """
     Log the user out.
     """
@@ -82,7 +92,7 @@ def register() -> str:
     """
     Show the registration form, or process the registration form if it was POSTed.
     """
-    
+
     if request.method == "POST":
         username: str = request.form["username"]
         password: str = request.form["password"]
@@ -97,7 +107,7 @@ def register() -> str:
             try:
                 user_manager.UserManager().register_user(username, password)
                 return renderer.get_template(
-                    "index.html", server_message="User created."
+                    "register_success.html", server_message="User created."
                 )
 
             except ValueError as error:

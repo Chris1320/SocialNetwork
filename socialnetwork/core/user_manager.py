@@ -1,7 +1,7 @@
 import hashlib
 import random
-from string import ascii_letters
 from enum import Enum
+from string import ascii_letters
 
 from socialnetwork.core.database_manager import DatabaseManager
 
@@ -33,7 +33,7 @@ def hash_password(password: str, salt: str) -> str:
     :returns: The hashed password.
     """
 
-    return hashlib.sha256(':'.join((salt, password, salt)).encode()).hexdigest()
+    return hashlib.sha256(":".join((salt, password, salt)).encode()).hexdigest()
 
 
 class UserManager(DatabaseManager):
@@ -69,12 +69,12 @@ class UserManager(DatabaseManager):
             raise ValueError("Username already exists.")
 
         # Hash the password.
-        salt: str = ''.join(random.choices(ascii_letters, k=16))
+        salt: str = "".join(random.choices(ascii_letters, k=16))
         password = hash_password(password, salt)
 
         cursor.execute(
             "INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)",
-            (username, ':'.join((password, salt)), is_admin),
+            (username, ":".join((password, salt)), is_admin),
         )
         self.database.commit()
 
@@ -95,9 +95,9 @@ class UserManager(DatabaseManager):
             raise ValueError("Invalid username/password.")
 
         print(record)
-        password = hash_password(password, record[2].partition(':')[2])
+        password = hash_password(password, record[2].partition(":")[2])
 
-        if record[2].partition(':')[0] == password:
+        if record[2].partition(":")[0] == password:
             return UserLevel.ADMIN if record[3] else UserLevel.NORMAL
 
         raise ValueError("Invalid username/password.")
