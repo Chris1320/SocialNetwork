@@ -1,8 +1,59 @@
+:root {
+    /* fonts */
+    --font-roboto: Roboto;
+
+    /* font sizes */
+    --font-size-2xs: 11px;
+    --font-size-xs: 12px;
+    --font-size-3xs: 10px;
+    --font-size-base: 16px;
+
+    /* Colors */
+    --color-whitesmoke-100: #f6f6f6;
+    --on-primary-high-emphasis: #fff;
+    --color-red-100: #ff0000;
+    --linkedin-color: #00acff;
+    --color-gray-100: #fcfdfd;
+    --on-surface-high-emphasis: #212121;
+    --color-gray-200: #181818;
+    --color-gray-300: rgba(0, 0, 0, 0.46);
+    --color-black: #000;
+    --color-aliceblue: #e9f0f8;
+    --on-surface-medium-emphasis: #666;
+    --border-color-default: #dfdfdf;
+
+    /* Gaps */
+    --gap-mini: 15px;
+    --gap-5xl: 24px;
+    --gap-9xs: 4px;
+    --gap-sm: 14px;
+    --gap-7xs: 6px;
+
+    /* Paddings */
+    --padding-9xs: 4px;
+    --padding-11xs: 2px;
+    --padding-10xs: 3px;
+    --padding-5xl: 24px;
+
+    /* Border radiuses */
+    --br-4xs: 9px;
+    --br-lg: 18px;
+    --br-5xs: 8px;
+    --br-9xs: 4px;
+    --br-base: 16px;
+}
+
 * {
     font-family: sans-serif;
 }
 
-body > header > nav ul > li {  /* The horizontal navbar */
+body {
+    margin: 0;
+    line-height: normal;
+}
+
+body > header > nav ul > li {
+    /* The horizontal navbar */
     display: inline-block;
     padding: 10px;
 }
