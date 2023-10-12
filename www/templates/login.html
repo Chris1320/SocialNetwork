@@ -1,5 +1,8 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block main %}
 <h1>Social Network - Login</h1>
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
 <form action="/login" method="POST">
     <div>
         <label for="username">Username:</label>
@@ -13,5 +16,7 @@
         <input type="submit" value="Login" />
     </div>
 </form>
+
+<a href="{{ url_for('register') }}">Not yet logged in?</a>
 
 {% endblock %}

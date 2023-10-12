@@ -20,5 +20,5 @@ class DatabaseManager:
 
         cursor = self.database.cursor()
         cursor.execute(
-            "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT NOT NULL, password TEXT NOT NULL)"
+            "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT NOT NULL, password TEXT NOT NULL, is_admin BOOLEAN NOT NULL)"
         )

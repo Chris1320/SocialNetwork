@@ -31,10 +31,16 @@ def index() -> str:
 @app.route("/login", methods=["GET", "POST"])
 def login() -> str:
     if request.method == "POST":
-        username: str = request.form["username"]
-        password: str = request.form["password"]
-        logger.debug(f"{username=} {password=}")
-        return "OK"
+        try:
+            username: str = request.form["username"]
+            password: str = request.form["password"]
+            if user_manager.UserManager().validate_user(username=username, password=password):
+                return renderer.get_template("newsfeed.html")
+            
+            return renderer.get_template("login.html", error="Wrong username/password!")
+
+        except ValueError as error:
+            return renderer.get_template("login.html", error=str(error))
 
     return renderer.get_template("login.html")
 
@@ -45,7 +51,6 @@ def register() -> str:
         username: str = request.form["username"]
         password: str = request.form["password"]
         password_confirm: str = request.form["password-confirm"]
-        logger.debug(f"{username=} {password=} {password_confirm=}")
 
         if password != password_confirm:
             return renderer.get_template(
