@@ -12,5 +12,5 @@ def get_template(template_name: str, **kwargs: str) -> str:
     """
 
     return render_template(
-        template_name, BRAND_NAME=info.Brand.name, YEAR=strftime("%Y"), **kwargs
+        template_name, BRAND_NAME=info.Brand.name, COPYRIGHT_YEAR=strftime("%Y"), **kwargs
     )

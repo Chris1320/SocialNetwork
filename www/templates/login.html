@@ -1,5 +1,8 @@
-{% extends "base.html" %} {% block title %}Login{% endblock %} {% block main %}
-<h1>Social Network - Login</h1>
+{% extends "base.html" %}
+{% block title %}Login - {{ BRAND_NAME }}{% endblock %}
+
+{% block main %}
+<h1>{{ BRAND_NAME }} - Login</h1>
 {% if error %}
 <p class="error">{{ error }}</p>
 {% endif %}

@@ -10,7 +10,7 @@ class Server:
 
 
 class Brand:
-    name: str = "Z"
+    name: str = "Da Peysbuk"
 
 
 class Filepath:
