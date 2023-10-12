@@ -6,7 +6,7 @@ class Server:
     host: str = "0.0.0.0"
     port: int = 5000
     debug: bool = True
-    log_format: str = "%(asctime)s | %(name)s | %(levelname)s | %(message)s" 
+    log_format: str = "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
 
 
 class Brand:

@@ -1,7 +1,5 @@
-{% extends "base.html" %}
-{% block title %}Login - {{ BRAND_NAME }}{% endblock %}
-
-{% block main %}
+{% extends "base.html" %} {% block title %}Login - {{ BRAND_NAME }}{% endblock
+%} {% block main %}
 <h1>{{ BRAND_NAME }} - Login</h1>
 {% if error %}
 <p class="error">{{ error }}</p>
@@ -9,17 +7,17 @@
 <form action="/login" method="POST">
     <div>
         <label for="username">Username:</label>
-        <input type="text" name="username" id="username" />
+        <input type="text" name="username" id="username" required />
     </div>
     <div>
         <label for="password">Password:</label>
-        <input type="password" name="password" id="password" />
+        <input type="password" name="password" id="password" required />
     </div>
     <div>
         <input type="submit" value="Login" />
     </div>
 </form>
 
-<a href="{{ url_for('register') }}">Not yet logged in?</a>
+<small><a href="{{ url_for('register') }}">Not yet registered?</a></small>
 
 {% endblock %}

@@ -1,12 +1,14 @@
 import hashlib
+import random
+from string import ascii_letters
 from enum import Enum
 
 from socialnetwork.core.database_manager import DatabaseManager
 
 
 class UserLevel(Enum):
-    ADMIN: int = 0
-    NORMAL: int = 1
+    ADMIN = 0
+    NORMAL = 1
 
 
 def validate_password(password: str) -> dict[str, bool | str]:
@@ -21,6 +23,17 @@ def validate_password(password: str) -> dict[str, bool | str]:
         return {"status": False, "message": "Password must be at least 8 characters."}
 
     return {"status": True, "message": "Password is valid."}
+
+
+def hash_password(password: str, salt: str) -> str:
+    """
+    Hash the password and return its hex digest.
+
+    :param str password: The password to hash.
+    :returns: The hashed password.
+    """
+
+    return hashlib.sha256(':'.join((salt, password, salt)).encode()).hexdigest()
 
 
 class UserManager(DatabaseManager):
@@ -55,12 +68,13 @@ class UserManager(DatabaseManager):
         if cursor.fetchone():
             raise ValueError("Username already exists.")
 
-        # Hash the password. (without salt)
-        password = hashlib.sha256(password.encode()).hexdigest()
+        # Hash the password.
+        salt: str = ''.join(random.choices(ascii_letters, k=16))
+        password = hash_password(password, salt)
 
         cursor.execute(
             "INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)",
-            (username, password, is_admin),
+            (username, ':'.join((password, salt)), is_admin),
         )
         self.database.commit()
 
@@ -77,10 +91,13 @@ class UserManager(DatabaseManager):
 
         cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
         record = cursor.fetchone()
-        print()
-        password = hashlib.sha256(password.encode()).hexdigest()
+        if record is None:
+            raise ValueError("Invalid username/password.")
 
-        if record[2] == password:
+        print(record)
+        password = hash_password(password, record[2].partition(':')[2])
+
+        if record[2].partition(':')[0] == password:
             return UserLevel.ADMIN if record[3] else UserLevel.NORMAL
 
         raise ValueError("Invalid username/password.")

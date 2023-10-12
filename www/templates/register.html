@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block title %}Create a New Account - {{ BRAND_NAME }}{% endblock %} {% block main %}
+{% extends "base.html" %} {% block title %}Create a New Account - {{ BRAND_NAME
+}}{% endblock %} {% block main %}
 <h1>{{ BRAND_NAME }} - Register</h1>
 {% if error %}
 <p class="error">{{ error }}</p>
@@ -16,7 +17,13 @@
             </tr>
             <tr>
                 <td><label for="password-confirm">Confirm Password</label></td>
-                <td><input type="password" name="password-confirm" id="password-confirm" /></td>
+                <td>
+                    <input
+                        type="password"
+                        name="password-confirm"
+                        id="password-confirm"
+                    />
+                </td>
             </tr>
         </table>
         <input type="submit" value="Login" />
