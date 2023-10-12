@@ -30,6 +30,15 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
+@app.route("/favicon.ico")
+def favicon() -> WerkzeugResponse:
+    """
+    Return the favicon.ico file.
+    """
+
+    return app.send_static_file("media/favicon.ico")
+
+
 @app.route("/")
 def index() -> str:
     """
