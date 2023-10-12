@@ -1,3 +1,4 @@
+from typing import Any
 from time import strftime
 
 from flask import render_template
@@ -5,7 +6,7 @@ from flask import render_template
 from socialnetwork.core import info
 
 
-def get_template(template_name: str, **kwargs: str) -> str:
+def get_template(template_name: str, **kwargs: Any) -> str:
     """
     Add things to the template before returning it.
 

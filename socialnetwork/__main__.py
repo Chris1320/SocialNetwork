@@ -46,9 +46,33 @@ def index() -> str:
     """
 
     # Check session if the user is already logged in.
-    if not session.get("username"):
+    if not session.get("logged_in"):
         return renderer.get_template("index.html")
-    return renderer.get_template("newsfeed.html")
+
+    return renderer.get_template(
+        "newsfeed.html",
+        server_message=f"Welcome to {info.Brand.name}, {session.get('username')}!"
+            if request.args.get("welcomed")
+            else None
+    )
+
+
+@app.route("/profile")
+def profile() -> str | WerkzeugResponse:
+    """
+    Show the profile page of the user.
+    """
+
+    if not session.get('logged_in'):
+        return redirect(url_for('index'))
+
+    try:
+        user_info: dict[str, str] = user_manager.UserManager().get_user_info(session["user_id"])
+
+    except ValueError:
+        return redirect(url_for('welcome'))
+
+    return renderer.get_template("profile.html", user_info=user_info)
 
 
 @app.route("/about")
@@ -66,14 +90,19 @@ def login() -> str | WerkzeugResponse:
     Show the login form, or process the login form if it was POSTed.
     """
 
+    if session.get('logged_in'):
+        return redirect(url_for('index'))
+
     if request.method == "POST":
         try:
             username: str = request.form["username"]
             password: str = request.form["password"]
-            if user_manager.UserManager().validate_user(
+            user_id: int | None = user_manager.UserManager().validate_user(
                 username=username, password=password
-            ):
+            )
+            if user_id is not None:
                 session["logged_in"] = True
+                session["user_id"] = user_id
                 session["username"] = username
                 return redirect(url_for("index"))
 
@@ -92,15 +121,20 @@ def logout() -> WerkzeugResponse:
     """
 
     session.pop("logged_in", None)
+    session.pop("user_id", None)
     session.pop("username", None)
+
     return redirect(url_for("index"))
 
 
 @app.route("/register", methods=["GET", "POST"])
-def register() -> str:
+def register() -> str | WerkzeugResponse:
     """
     Show the registration form, or process the registration form if it was POSTed.
     """
+
+    if session.get('logged_in'):
+        return redirect(url_for('index'))
 
     if request.method == "POST":
         username: str = request.form["username"]
@@ -114,15 +148,33 @@ def register() -> str:
 
         else:
             try:
-                user_manager.UserManager().register_user(username, password)
-                return renderer.get_template(
-                    "register_success.html", server_message="User created."
-                )
+                user_id: int = user_manager.UserManager().register_user(username, password)
+                if user_id is not None:
+                    session["logged_in"] = True
+                    session["user_id"] = user_id
+                    session["username"] = username
+                    return redirect(url_for("welcome"))
 
             except ValueError as error:
                 return renderer.get_template("register.html", error=str(error))
 
     return renderer.get_template("register.html")
+
+
+@app.route("/welcome", methods=["GET", "POST"])
+def welcome() -> str | WerkzeugResponse:
+    """
+    Show the welcome page, asking the user for their information.
+    """
+
+    if not session.get('logged_in'):
+        return redirect(url_for('index'))
+
+    if request.method == "POST":
+        user_manager.UserManager().update_user_info(session["user_id"], **request.form)
+        return redirect(url_for("index", welcomed=True))
+
+    return renderer.get_template("welcome.html")
 
 
 if __name__ == "__main__":

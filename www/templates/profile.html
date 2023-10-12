@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Hi, {{ session.get('username') }}.</h1>
+<table>
+    <tbody>
+        <tr>
+            <td>First Name</td>
+            <td>{{ user_info.get("first_name") }}</td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td>{{ user_info.get("last_name") }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ user_info.get("email") }}</td>
+        </tr>
+        <tr>
+            <td>Phone Number</td>
+            <td>{{ user_info.get("phone_number") }}</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>{{ user_info.get("address") }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block main %}
+<h1>Hi, {{ session.get('username') }}.</h1>
+<h3>Let's get you started!</h3>
+<form action="/welcome", method="POST">
+    <div>
+        <input type="text" name="first-name" placeholder="First Name" />
+        <input type="text" name="last-name" placeholder="Last Name" />
+    </div>
+    <div>
+        <input type="text" name="email" placeholder="Email" />
+        <input type="text" name="phone-number" placeholder="Phone Number" />
+    </div>
+    <div>
+        <input type="text" name="address" placeholder="Address" />
+    </div>
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}

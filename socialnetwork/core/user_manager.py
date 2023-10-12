@@ -46,7 +46,7 @@ class UserManager(DatabaseManager):
 
     def register_user(
         self, username: str, password: str, is_admin: bool = False
-    ) -> None:
+    ) -> int:
         """
         Register a new user in the database.
 
@@ -54,6 +54,8 @@ class UserManager(DatabaseManager):
 
         :param str username: The username of the user.
         :param str password: The password of the user.
+        :param bool is_admin: Whether the user is an admin or not.
+        :returns: The user ID of the registered user.
         """
 
         cursor = self.database.cursor()
@@ -73,18 +75,92 @@ class UserManager(DatabaseManager):
         password = hash_password(password, salt)
 
         cursor.execute(
-            "INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)",
-            (username, ":".join((password, salt)), is_admin),
+            "INSERT INTO users (username, password, is_admin, welcomed) VALUES (?, ?, ?, ?)",
+            (username, ":".join((password, salt)), is_admin, False),
         )
         self.database.commit()
 
-    def validate_user(self, username: str, password: str) -> UserLevel:
+        if cursor.lastrowid is None:
+            raise ValueError("Failed to register user.")
+
+        return cursor.lastrowid
+    
+    def get_user_info(self, user_id: int) -> dict[str, str]:
+        """
+        Get a user's information.
+
+        :param int user_id: the user ID of the user.
+        :return dict[str, str]: The row from the database containing the user's information.
+        """
+
+        cursor = self.database.cursor()
+
+        cursor.execute("SELECT * FROM user_info WHERE user_id = ?", (user_id,))
+        record = cursor.fetchone()
+        if record is None:
+            raise ValueError("User does not exist.")
+
+        return {
+            "first_name": record[1],
+            "last_name": record[2],
+            "email": record[3],
+            "phone_number": record[4],
+            "address": record[5],
+        }
+
+    def update_user_info(self, user_id: int, **kwargs) -> None:
+        """
+        Update the user's information.
+
+        :param int user_id: The user ID of the user.
+        """
+
+        cursor = self.database.cursor()
+
+        cursor.execute("SELECT * FROM user_info WHERE user_id = ?", (user_id,))
+        if cursor.fetchone():
+            cursor.execute(
+                """
+                UPDATE user_info
+                SET first_name = ?, last_name = ?, email = ?, phone_number = ?, address = ?
+                WHERE user_id = ?
+                """,
+                (
+                    kwargs["first-name"],
+                    kwargs["last-name"],
+                    kwargs["email"],
+                    kwargs["phone-number"],
+                    kwargs["address"],
+                    user_id,
+                ),
+            )
+        else:
+            cursor.execute(
+                """
+                INSERT INTO user_info
+                (user_id, first_name, last_name, email, phone_number, address)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    user_id,
+                    kwargs["first-name"],
+                    kwargs["last-name"],
+                    kwargs["email"],
+                    kwargs["phone-number"],
+                    kwargs["address"],
+                ),
+            )
+
+        cursor.execute("UPDATE users SET welcomed = ? WHERE id = ?", (True, user_id))
+        self.database.commit()
+
+    def validate_user(self, username: str, password: str) -> int | None:
         """
         Check if the username and their password is valid.
 
         :param str username: The username of the user.
         :param str password: The plaintext password of the user.
-        :returns:
+        :returns: The user ID if the username and password is valid, None otherwise.
         """
 
         cursor = self.database.cursor()
@@ -98,6 +174,6 @@ class UserManager(DatabaseManager):
         password = hash_password(password, record[2].partition(":")[2])
 
         if record[2].partition(":")[0] == password:
-            return UserLevel.ADMIN if record[3] else UserLevel.NORMAL
+            return record[0]
 
         raise ValueError("Invalid username/password.")
