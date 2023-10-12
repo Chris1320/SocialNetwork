@@ -101,6 +101,7 @@ class UserManager(DatabaseManager):
             raise ValueError("User does not exist.")
 
         return {
+            "user_id": record[0],
             "first_name": record[1],
             "last_name": record[2],
             "email": record[3],
@@ -170,10 +171,93 @@ class UserManager(DatabaseManager):
         if record is None:
             raise ValueError("Invalid username/password.")
 
-        print(record)
         password = hash_password(password, record[2].partition(":")[2])
 
         if record[2].partition(":")[0] == password:
             return record[0]
 
         raise ValueError("Invalid username/password.")
+    
+    def get_friends_list(self, user_id: int) -> list[int]:
+        """
+        Get a list of the user with ID <user_id>'s friends from the database.
+
+        :param int user_id: The user ID
+        :return list: A list of user IDs that are friends with the user.
+        """
+
+        cursor = self.database.cursor()
+
+        cursor.execute(
+            """
+            SELECT user_id2
+            FROM friendships
+            WHERE user_id1 = ?
+            """,
+            (user_id,),
+        )
+
+        return [record[0] for record in cursor.fetchall()]
+    
+    def get_all_users(self) -> list[dict[str, str]]:
+        """
+        Get a list of all users from the database.
+
+        :return list: A list of user IDs.
+        """
+
+        cursor = self.database.cursor()
+
+        cursor.execute(
+            """
+            SELECT id
+            FROM users
+            """
+        )
+
+        return [
+            self.get_user_info(record[0])
+            for record in cursor.fetchall()
+        ]
+    
+    def friend_add(self, user_id1: int, user_id2: int) -> None:
+        """
+        Add a friendship between two users.
+
+        :param int user_id1: The user ID of the first user.
+        :param int user_id2: The user ID of the second user.
+        """
+
+        cursor = self.database.cursor()
+
+        for combination in ((user_id1, user_id2), (user_id2, user_id1)):
+            cursor.execute(
+                """
+                INSERT INTO friendships (user_id1, user_id2)
+                VALUES (?, ?)
+                """,
+                combination,
+            )
+
+        self.database.commit()
+
+    def friend_remove(self, user_id1: int, user_id2: int) -> None:
+        """
+        Remove a friendship between two users.
+
+        :param int user_id1: The user ID of the first user.
+        :param int user_id2: The user ID of the second user.
+        """
+
+        cursor = self.database.cursor()
+
+        for combination in ((user_id1, user_id2), (user_id2, user_id1)):
+            cursor.execute(
+                """
+                DELETE FROM friendships
+                WHERE user_id1 = ? AND user_id2 = ?
+                """,
+                combination,
+            )
+
+        self.database.commit()

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}People{% endblock %}
+
+{% block main %}
+<h2>Other Users</h2>
+{% for user in users %}
+<div>
+    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+    <li>Email: {{ user.email }}</li>
+    <li>Phone Number: {{ user.phone_number }}</li>
+    <li>Address: {{ user.address }}</li>
+    {% if not user.is_self %}
+    {% if user.is_friend %}
+    <li><a href="{{ url_for('remove_friend', friend_id=user.user_id) }}">Unfriend</a></li>
+    {% else %}
+    <li><a href="{{ url_for('add_friend', friend_id=user.user_id) }}">Add Friend</a></li>
+    {% endif %}
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

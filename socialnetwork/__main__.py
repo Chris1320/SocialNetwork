@@ -69,6 +69,59 @@ def index() -> str | WerkzeugResponse:
     )
 
 
+@app.route("/people")
+def people() -> str | WerkzeugResponse:
+    """
+    Show the people page.
+    """
+
+    if not session.get("logged_in"):
+        return redirect(url_for("index"))
+
+    server_message = request.args.get(
+        "server_message",
+        None,
+    )
+
+    users = user_manager.UserManager().get_all_users()
+    friends = user_manager.UserManager().get_friends_list(session["user_id"])
+    users_with_friend_status: list[dict[str, str | bool]] = users.copy()  # type: ignore
+    for idx, user in enumerate(users):
+            users_with_friend_status[idx]["is_friend"] = True if user["user_id"] in friends else False
+            users_with_friend_status[idx]["is_self"] = user["user_id"] == session["user_id"]
+
+    return renderer.get_template("people.html", users=users_with_friend_status, server_message=server_message)
+
+
+@app.route("/people/add", methods=["GET"])
+def add_friend() -> str | WerkzeugResponse:
+    """
+    Add a friend.
+    """
+
+    if not session.get("logged_in"):
+        return abort(403)
+
+    friend_id = int(request.args["friend_id"])
+    user_manager.UserManager().friend_add(session["user_id"], friend_id)
+
+    return redirect(url_for("people", server_message="Friend added!"))
+
+@app.route("/people/remove", methods=["GET"])
+def remove_friend() -> str | WerkzeugResponse:
+    """
+    Remove a friend.
+    """
+
+    if not session.get("logged_in"):
+        return abort(403)
+
+    friend_id = int(request.args["friend_id"])
+    user_manager.UserManager().friend_remove(session["user_id"], friend_id)
+
+    return redirect(url_for("people", server_message="Friend removed!"))
+
+
 @app.route("/profile")
 def profile() -> str | WerkzeugResponse:
     """
