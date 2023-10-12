@@ -7,10 +7,6 @@
         <meta name="viewport" content="initial-scale=1, width=device-width" />
 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-        />
         {% endblock %}
     </head>
     <body>
@@ -32,9 +28,7 @@
         </header>
         <main>
             {% block notify %} {% if server_message %}
-            <div class="server-message">
-                <p>{{ server_message }}</p>
-            </div>
+            <div class="server-message"><p>{{ server_message }}</p></div>
             {% endif %} {% endblock %}
             <!-- The main content -->
             {% block main %}

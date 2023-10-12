@@ -74,3 +74,10 @@ body > header > nav ul > li {
     background-color: yellow;
     font-weight: bold;
 }
+
+.post {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #dfdfdf;
+    border-radius: 9px;
+}

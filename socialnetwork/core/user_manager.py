@@ -84,7 +84,7 @@ class UserManager(DatabaseManager):
             raise ValueError("Failed to register user.")
 
         return cursor.lastrowid
-    
+
     def get_user_info(self, user_id: int) -> dict[str, str]:
         """
         Get a user's information.

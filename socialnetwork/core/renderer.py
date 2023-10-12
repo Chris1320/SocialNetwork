@@ -1,5 +1,5 @@
-from typing import Any
 from time import strftime
+from typing import Any
 
 from flask import render_template
 

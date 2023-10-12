@@ -32,16 +32,6 @@ class DatabaseManager:
         )
         cursor.execute(
             """
-            CREATE TABLE IF NOT EXISTS posts (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                content TEXT NOT NULL,
-                FOREIGN KEY(user_id) REFERENCES users(id)
-            )
-            """
-        )
-        cursor.execute(
-            """
             CREATE TABLE IF NOT EXISTS user_info (
                 user_id INTEGER PRIMARY KEY,
                 first_name TEXT NOT NULL,
@@ -49,6 +39,17 @@ class DatabaseManager:
                 email TEXT,
                 phone_number TEXT,
                 address TEXT,
+                FOREIGN KEY(user_id) REFERENCES users(id)
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS posts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                content TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY(user_id) REFERENCES users(id)
             )
             """

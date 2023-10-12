@@ -1,6 +1,17 @@
-{% extends "base.html" %}
-
-{% block main %}
+{% extends "base.html" %} {% block main %}
 <h2>Welcome, {{ session.get('username') }}!</h2>
-<p>We have no posts to show you. Go touch grass.</p>
-{% endblock %}
+<form action="/post" , method="POST">
+    <div>
+        <textarea name="message" cols="80%" rows="5" placeholder="Write your thoughts here..."></textarea>
+    </div>
+    <input type="submit" value="Post" />
+</form>
+<hr />
+{% if not posts %}
+<p>We have no posts yet. Add one!</p>
+{% endif %} {% for post in posts %}
+<div class="post">
+    <blockquote>{{ post['content'] }}</blockquote>
+    <p><i><small>Posted by {{ post['username'] }} at {{ post['timestamp'] }}</small></i></p>
+</div>
+{% endfor %} {% endblock %}

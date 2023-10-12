@@ -2,11 +2,17 @@ import logging
 from time import strftime
 from typing import Final
 
-from flask import Flask, redirect, request, session, url_for
+from flask import Flask, abort, redirect, request, session, url_for
 from werkzeug.wrappers import Response as WerkzeugResponse
 
 from flask_session import Session
-from socialnetwork.core import database_manager, info, renderer, user_manager
+from socialnetwork.core import (
+    database_manager,
+    info,
+    post_manager,
+    renderer,
+    user_manager,
+)
 
 # Set up the logger.
 logger: Final[logging.Logger] = logging.getLogger(__name__)
@@ -40,20 +46,26 @@ def favicon() -> WerkzeugResponse:
 
 
 @app.route("/")
-def index() -> str:
+def index() -> str | WerkzeugResponse:
     """
     This route is the landing page, or newsfeed if the user is logged in.
     """
 
-    # Check session if the user is already logged in.
     if not session.get("logged_in"):
-        return renderer.get_template("index.html")
+        return redirect(url_for("login"))
 
+    server_message = request.args.get(
+        "server_message",
+        f"Welcome to {info.Brand.name}, {session.get('username')}!"
+        if request.args.get("welcomed")
+        else None,
+    )
+
+    posts: list[dict[str, str]] = post_manager.PostManager().get_posts()
     return renderer.get_template(
         "newsfeed.html",
-        server_message=f"Welcome to {info.Brand.name}, {session.get('username')}!"
-            if request.args.get("welcomed")
-            else None
+        server_message=server_message,
+        posts=posts,
     )
 
 
@@ -63,14 +75,16 @@ def profile() -> str | WerkzeugResponse:
     Show the profile page of the user.
     """
 
-    if not session.get('logged_in'):
-        return redirect(url_for('index'))
+    if not session.get("logged_in"):
+        return redirect(url_for("index"))
 
     try:
-        user_info: dict[str, str] = user_manager.UserManager().get_user_info(session["user_id"])
+        user_info: dict[str, str] = user_manager.UserManager().get_user_info(
+            session["user_id"]
+        )
 
     except ValueError:
-        return redirect(url_for('welcome'))
+        return redirect(url_for("welcome"))
 
     return renderer.get_template("profile.html", user_info=user_info)
 
@@ -90,8 +104,8 @@ def login() -> str | WerkzeugResponse:
     Show the login form, or process the login form if it was POSTed.
     """
 
-    if session.get('logged_in'):
-        return redirect(url_for('index'))
+    if session.get("logged_in"):
+        return redirect(url_for("index"))
 
     if request.method == "POST":
         try:
@@ -133,8 +147,8 @@ def register() -> str | WerkzeugResponse:
     Show the registration form, or process the registration form if it was POSTed.
     """
 
-    if session.get('logged_in'):
-        return redirect(url_for('index'))
+    if session.get("logged_in"):
+        return redirect(url_for("index"))
 
     if request.method == "POST":
         username: str = request.form["username"]
@@ -148,7 +162,9 @@ def register() -> str | WerkzeugResponse:
 
         else:
             try:
-                user_id: int = user_manager.UserManager().register_user(username, password)
+                user_id: int = user_manager.UserManager().register_user(
+                    username, password
+                )
                 if user_id is not None:
                     session["logged_in"] = True
                     session["user_id"] = user_id
@@ -167,14 +183,36 @@ def welcome() -> str | WerkzeugResponse:
     Show the welcome page, asking the user for their information.
     """
 
-    if not session.get('logged_in'):
-        return redirect(url_for('index'))
+    if not session.get("logged_in"):
+        return redirect(url_for("index"))
 
     if request.method == "POST":
         user_manager.UserManager().update_user_info(session["user_id"], **request.form)
         return redirect(url_for("index", welcomed=True))
 
     return renderer.get_template("welcome.html")
+
+
+@app.route("/post", methods=["POST"])
+def post() -> WerkzeugResponse:
+    """
+    Post a message.
+    """
+
+    if not session.get("logged_in"):
+        return abort(403)
+
+    message = request.form["message"]
+
+    if len(message) > 140:
+        return redirect(url_for("index", server_message="Message is too long!"))
+
+    elif len(message) == 0:
+        return redirect(url_for("index", server_message="Message is empty!"))
+
+    post_manager.PostManager().post_message(session["user_id"], message)
+
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":

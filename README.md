@@ -7,11 +7,11 @@ A Social Network System. (COMP4)
 - [X] User Registration
 - [X] User Login
 - [ ] Update User Information
-- [ ] Posting Text
-- [ ] Posting Images/Videos
+- [X] Posting Text
 - [ ] Editing Posts
 - [ ] Search Posts
-- [ ] Filter Newsfeed
+- [ ] Deleting Posts
+- [ ] Filter/Sort Newsfeed
 
 ## Running the System
 
