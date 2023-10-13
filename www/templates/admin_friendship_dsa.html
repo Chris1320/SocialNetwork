@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% block main %}
+{% extends "base.html" %} {% block main %}
 <h1>Friendship Data Structure (Graph Adjacency Matrix)</h1>
 <table border="1" align="center">
     <tr>
@@ -12,7 +11,7 @@
     <tr>
         <th>{{ users[i][1] }}</th>
         {% for j in col_length %}
-        <td>{{ matrix[i][j] }}</td>
+        <td style="background-color: {% if matrix[i][j] == 1 %}yellow{% else %}gray{% endif %};">{{ matrix[i][j] }}</td>
         {% endfor %}
     </tr>
     {% endfor %}

@@ -1,52 +1,33 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-{% block main %}
-<h1>About {{ BRAND_NAME }}</h1>
-<p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-    aliqua. Nascetur ridiculus mus mauris vitae ultricies leo integer malesuada. Posuere lorem ipsum dolor sit amet
-    consectetur adipiscing. Mattis pellentesque id nibh tortor. Ornare aenean euismod elementum nisi quis eleifend quam.
-    Ornare lectus sit amet est placerat in egestas erat imperdiet. Aliquet porttitor lacus luctus accumsan tortor.
-    Viverra adipiscing at in tellus integer feugiat scelerisque. Imperdiet proin fermentum leo vel orci porta non
-    pulvinar neque. Consectetur adipiscing elit ut aliquam purus. Nec feugiat nisl pretium fusce. Auctor eu augue ut
-    lectus arcu bibendum at varius vel. Ultrices vitae auctor eu augue ut.
-</p>
-<p>
-    Eget egestas purus viverra accumsan. Egestas dui id ornare arcu odio ut sem nulla pharetra. Pharetra et ultrices
-    neque ornare aenean euismod elementum. Augue neque gravida in fermentum et sollicitudin. Tortor at risus viverra
-    adipiscing at. Eget mi proin sed libero enim sed faucibus. Eleifend mi in nulla posuere sollicitudin aliquam
-    ultrices sagittis orci. Amet mattis vulputate enim nulla aliquet porttitor. Leo duis ut diam quam nulla porttitor
-    massa id. Orci phasellus egestas tellus rutrum tellus pellentesque eu. Arcu non sodales neque sodales ut etiam sit
-    amet. Duis convallis convallis tellus id interdum. Convallis tellus id interdum velit laoreet id donec ultrices
-    tincidunt. Pellentesque adipiscing commodo elit at imperdiet dui accumsan sit. Purus in mollis nunc sed id semper.
-    Vel elit scelerisque mauris pellentesque pulvinar pellentesque. Pellentesque habitant morbi tristique senectus et
-    netus et malesuada.
-</p>
-<p>
-    Augue ut lectus arcu bibendum at varius. Tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Sed
-    vulputate mi sit amet. Porttitor leo a diam sollicitudin tempor id. Praesent tristique magna sit amet purus gravida.
-    Augue ut lectus arcu bibendum at varius vel pharetra. Integer enim neque volutpat ac tincidunt vitae semper quis.
-    Aliquet eget sit amet tellus cras adipiscing enim eu turpis. In nibh mauris cursus mattis molestie a iaculis at
-    erat. Scelerisque felis imperdiet proin fermentum. Dictum non consectetur a erat nam at lectus urna duis. Nibh
-    mauris cursus mattis molestie a iaculis at. Massa id neque aliquam vestibulum morbi blandit cursus risus. Nisl
-    tincidunt eget nullam non nisi. Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt. Sit
-    amet nisl suscipit adipiscing bibendum est ultricies. Ut tristique et egestas quis ipsum suspendisse ultrices
-    gravida dictum. Morbi tempus iaculis urna id volutpat. Diam quis enim lobortis scelerisque.
-</p>
-<p>
-    Mauris vitae ultricies leo integer malesuada nunc vel risus commodo. Et netus et malesuada fames. Arcu cursus
-    euismod quis viverra nibh. Amet porttitor eget dolor morbi non. Erat nam at lectus urna duis. Nunc consequat
-    interdum varius sit amet mattis vulputate. Vitae auctor eu augue ut lectus arcu bibendum at varius. Arcu non odio
-    euismod lacinia at quis risus sed vulputate. Sit amet nulla facilisi morbi tempus. Maecenas accumsan lacus vel
-    facilisis volutpat est velit egestas. Leo urna molestie at elementum eu facilisis sed. Lobortis elementum nibh
-    tellus molestie nunc non blandit. In iaculis nunc sed augue lacus viverra vitae congue eu. Arcu dictum varius duis
-    at consectetur. Eget aliquet nibh praesent tristique magna sit amet.
-</p>
-<p>
-    Habitasse platea dictumst vestibulum rhoncus est. Gravida cum sociis natoque penatibus et magnis dis. Cursus mattis
-    molestie a iaculis at. Ut etiam sit amet nisl purus in mollis. Tortor pretium viverra suspendisse potenti nullam ac
-    tortor vitae purus. Id diam vel quam elementum pulvinar etiam non. Faucibus vitae aliquet nec ullamcorper sit amet
-    risus nullam eget. Morbi non arcu risus quis varius quam quisque id. Tincidunt dui ut ornare lectus. Et tortor at
-    risus viverra.
-</p>
-{% endblock %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" />
+    </head>
+    <body>
+        <div class="about">
+            <img
+                class="logo-iteration-1-1"
+                alt=""
+                src="{{ url_for('static', filename='media/about/logo--iteration-1-1@2x.png') }}"
+            />
+
+            <a href="{{ url_for('index') }}" class="social-network">Social Network</a>
+            <div class="about-child"></div>
+            <img class="about-item" alt="" src="{{ url_for('static', filename='media/about/line-8.svg') }}" />
+
+            <b class="about-us">About Us:</b>
+            <b class="lorem-ipsum-dolor"
+                >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.</b
+            >
+        </div>
+    </body>
+</html>
