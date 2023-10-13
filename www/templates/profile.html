@@ -1,29 +1,29 @@
-{% extends "base.html" %}
-
-{% block main %}
-<h1>Hi, {{ session.get('username') }}.</h1>
-<table>
-    <tbody>
-        <tr>
-            <td>First Name</td>
-            <td>{{ user_info.get("first_name") }}</td>
-        </tr>
-        <tr>
-            <td>Last Name</td>
-            <td>{{ user_info.get("last_name") }}</td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>{{ user_info.get("email") }}</td>
-        </tr>
-        <tr>
-            <td>Phone Number</td>
-            <td>{{ user_info.get("phone_number") }}</td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td>{{ user_info.get("address") }}</td>
-        </tr>
-    </tbody>
-</table>
+{% extends "base.html" %} {% block main %}
+<h1 style="padding-left: 10%;">Hi, {{ session.get('username') }}.</h1>
+<div class="card">
+    <table>
+        <tbody>
+            <tr>
+                <td>First Name</td>
+                <td><b>{{ user_info.get("first_name") }}</b></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><b>{{ user_info.get("last_name") }}</b></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><b>{{ user_info.get("email") }}</b></td>
+            </tr>
+            <tr>
+                <td>Phone Number</td>
+                <td><b>{{ user_info.get("phone_number") }}</b></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><b>{{ user_info.get("address") }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 {% endblock %}

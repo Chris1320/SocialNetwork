@@ -7,22 +7,23 @@
         <meta name="viewport" content="initial-scale=1, width=device-width" />
 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+        {% block stylesheets %}{% endblock %}
         {% endblock %}
     </head>
     <body>
         <header>
             {% block header %}
-            <nav>
+            <nav class="navbar">
                 <ul>
-                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="navbar-button"><a href="{{ url_for('index') }}">Home</a></li>
                     {% if session.logged_in %}
-                    <li><a href="{{ url_for('people') }}">People</a></li>
-                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li class="navbar-button"><a href="{{ url_for('people') }}">People</a></li>
+                    <li class="navbar-button"><a href="{{ url_for('profile') }}">Profile</a></li>
+                    <li class="navbar-button"><a href="{{ url_for('logout') }}">Logout</a></li>
                     {% else %}
-                    <li><a href="{{ url_for('login') }}">Login/Register</a></li>
+                    <li class="navbar-button"><a href="{{ url_for('login') }}">Login/Register</a></li>
                     {% endif %}
-                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li class="navbar-button"><a href="{{ url_for('about') }}">About</a></li>
                 </ul>
             </nav>
             {% endblock %}

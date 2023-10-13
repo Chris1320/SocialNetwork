@@ -1,17 +1,25 @@
-{% extends "base.html" %} {% block main %}
-<h2>Welcome, {{ session.get('username') }}!</h2>
+{% extends "base.html" %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/newsfeed.css') }}" />
+{% endblock %}
+
+{% block main %}
+<h1 style="padding-left: 10%;color: white;">Welcome, {{ session.get('username') }}!</h1>
+<div class="card">
 <form action="/post" , method="POST">
     <div>
-        <textarea name="message" cols="80%" rows="5" placeholder="Write your thoughts here..."></textarea>
+        <textarea class="post-input" name="message" cols="60%" rows="5" placeholder="Write your thoughts here..."></textarea>
     </div>
     <input type="submit" value="Post" />
 </form>
+</div>
 <hr />
 {% if not posts %}
 <p>We have no posts yet. Add one!</p>
 {% endif %} {% for post in posts %}
-<div class="post">
-    <blockquote>{{ post['content'] }}</blockquote>
+<div class="card">
+    <blockquote class="post-content">{{ post['content'] }}</blockquote>
     <p><i><small>Posted by {{ post['username'] }} at {{ post['timestamp'] }}</small></i></p>
 </div>
 {% endfor %} {% endblock %}

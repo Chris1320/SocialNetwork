@@ -3,18 +3,18 @@
 {% block title %}People{% endblock %}
 
 {% block main %}
-<h2>Other Users</h2>
+<h1 style="padding-left: 10%;">Other Users</h1>
 {% for user in users %}
-<div>
+<div class="card">
     <h3>{{ user.first_name }} {{ user.last_name }} {% if user.is_self %}(You){% endif %}</h3>
-    <li>Email: {{ user.email }}</li>
-    <li>Phone Number: {{ user.phone_number }}</li>
-    <li>Address: {{ user.address }}</li>
+    <li>Email: <b>{{ user.email }}</b></li>
+    <li>Phone Number: <b>{{ user.phone_number }}</b></li>
+    <li>Address: <b>{{ user.address }}</b></li>
     {% if not user.is_self %}
     {% if user.is_friend %}
-    <li><a href="{{ url_for('remove_friend', friend_id=user.user_id) }}">Unfriend</a></li>
+    <li><a class="button-link" href="{{ url_for('remove_friend', friend_id=user.user_id) }}">Unfriend</a></li>
     {% else %}
-    <li><a href="{{ url_for('add_friend', friend_id=user.user_id) }}">Add Friend</a></li>
+    <li><a class="button-link" href="{{ url_for('add_friend', friend_id=user.user_id) }}">Add Friend</a></li>
     {% endif %}
     {% else %}
     {% endif %}
