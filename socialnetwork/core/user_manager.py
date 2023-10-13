@@ -36,7 +36,7 @@ def hash_password(password: str, salt: str) -> str:
     return hashlib.pbkdf2_hmac(
         "sha256",
         password.encode(),
-        hashlib.sha256(salt.encode()).hexdigest().encode(),
+        salt.encode(),
         iterations=100000,
         dklen=32
     ).hex()
