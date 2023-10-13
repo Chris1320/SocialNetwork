@@ -2,6 +2,7 @@ import hashlib
 import random
 from enum import Enum
 from string import ascii_letters
+from typing import Any
 
 from socialnetwork.core.database_manager import DatabaseManager
 
@@ -34,11 +35,7 @@ def hash_password(password: str, salt: str) -> str:
     """
 
     return hashlib.pbkdf2_hmac(
-        "sha256",
-        password.encode(),
-        salt.encode(),
-        iterations=100000,
-        dklen=32
+        "sha256", password.encode(), salt.encode(), iterations=100000, dklen=32
     ).hex()
 
 
@@ -49,6 +46,11 @@ class UserManager(DatabaseManager):
 
     def __init__(self) -> None:
         super().__init__()
+
+    def _run(self, query: str) -> list[Any]:
+        cursor = self.database.cursor()
+        cursor.execute(query)
+        return cursor.fetchall()
 
     def register_user(
         self, username: str, password: str, is_admin: bool = False
@@ -183,7 +185,35 @@ class UserManager(DatabaseManager):
             return record[0]
 
         raise ValueError("Invalid username/password.")
-    
+
+    def get_user_level(self, user_id: int) -> UserLevel:
+        """
+        Get the user level of the user.
+        """
+
+        cursor = self.database.cursor()
+
+        cursor.execute("SELECT is_admin FROM users WHERE id = ?", (user_id,))
+        record = cursor.fetchone()
+        if record is None:
+            raise ValueError("User does not exist.")
+
+        return UserLevel.ADMIN if record[0] else UserLevel.NORMAL
+
+    def set_user_level(self, user_id: int, user_level: UserLevel) -> None:
+        """
+        Set the user level of the user.
+        """
+
+        cursor = self.database.cursor()
+
+        cursor.execute(
+            "UPDATE users SET is_admin = ? WHERE id = ?",
+            (user_level == UserLevel.ADMIN, user_id),
+        )
+
+        self.database.commit()
+
     def get_friends_list(self, user_id: int) -> list[int]:
         """
         Get a list of the user with ID <user_id>'s friends from the database.
@@ -204,7 +234,7 @@ class UserManager(DatabaseManager):
         )
 
         return [record[0] for record in cursor.fetchall()]
-    
+
     def get_all_users(self) -> list[dict[str, str]]:
         """
         Get a list of all users from the database.
@@ -221,11 +251,8 @@ class UserManager(DatabaseManager):
             """
         )
 
-        return [
-            self.get_user_info(record[0])
-            for record in cursor.fetchall()
-        ]
-    
+        return [self.get_user_info(record[0]) for record in cursor.fetchall()]
+
     def friend_add(self, user_id1: int, user_id2: int) -> None:
         """
         Add a friendship between two users.

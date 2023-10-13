@@ -268,6 +268,50 @@ def post() -> WerkzeugResponse:
     return redirect(url_for("index"))
 
 
+@app.route("/admin", methods=["GET", "POST"])
+def admin_dashboard() -> str | WerkzeugResponse:
+    """
+    Show the admin dashboard if the user is an admin. Otherwise, show form for inputting the admin_magic.
+    """
+
+    if not session.get("logged_in"):
+        return redirect(url_for("index"))
+
+    if request.method == "POST":
+        if request.form["magic"] == info.Server.admin_magic:
+            user_manager.UserManager().set_user_level(session["user_id"], user_manager.UserLevel.ADMIN)
+            return redirect(url_for("admin_dashboard"))
+
+        else:
+            return redirect(url_for("admin_dashboard", server_message="Wrong admin magic!"))
+    
+    if not user_manager.UserManager().get_user_level(session["user_id"]) == user_manager.UserLevel.ADMIN:
+        return renderer.render_template("admin_magic.html")
+    
+    else:
+        return renderer.render_template("admin_dashboard.html")
+
+
+@app.route("/admin/demo/data/friendship", methods=["GET"])
+def admin_friendship_dsa() -> str:
+    """
+    Show the adjacency matrix of the friendship graph.
+    """
+
+    if not session.get("logged_in") or not user_manager.UserManager().get_user_level(session["user_id"]) == user_manager.UserLevel.ADMIN:
+        return abort(403)
+
+    users = user_manager.UserManager()._run("SELECT * FROM users")
+    friendships = user_manager.UserManager()._run("SELECT * FROM friendships")
+
+    # Create a matrix of all users, each record containing a value of 1 if the users are friends.
+    matrix: list[list[int]] = [[0 for _ in range(len(users))] for _ in range(len(users))]
+    for friendship in friendships:
+        matrix[friendship[0] - 1][friendship[1] - 1] = 1
+
+    return renderer.get_template("admin_friendship_dsa.html", col_length=range(len(matrix[0])), matrix=matrix, users=users)
+
+
 if __name__ == "__main__":
     # Prepare the database if it doesn't exist.
     if not info.Filepath.database.exists():
