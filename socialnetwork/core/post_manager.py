@@ -21,6 +21,7 @@ class PostManager(DatabaseManager):
 
         cursor = self.database.cursor()
 
+        message = message.lstrip().rstrip()
         cursor.execute(
             "INSERT INTO posts (user_id, content) VALUES (?, ?);",
             (user_id, message),

@@ -6,7 +6,7 @@
 <h2>Other Users</h2>
 {% for user in users %}
 <div>
-    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+    <h3>{{ user.first_name }} {{ user.last_name }} {% if user.is_self %}(You){% endif %}</h3>
     <li>Email: {{ user.email }}</li>
     <li>Phone Number: {{ user.phone_number }}</li>
     <li>Address: {{ user.address }}</li>
@@ -16,6 +16,7 @@
     {% else %}
     <li><a href="{{ url_for('add_friend', friend_id=user.user_id) }}">Add Friend</a></li>
     {% endif %}
+    {% else %}
     {% endif %}
 </div>
 {% endfor %}

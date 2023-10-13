@@ -33,7 +33,13 @@ def hash_password(password: str, salt: str) -> str:
     :returns: The hashed password.
     """
 
-    return hashlib.sha256(":".join((salt, password, salt)).encode()).hexdigest()
+    return hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode(),
+        hashlib.sha256(salt.encode()).hexdigest().encode(),
+        iterations=100000,
+        dklen=32
+    ).hex()
 
 
 class UserManager(DatabaseManager):
