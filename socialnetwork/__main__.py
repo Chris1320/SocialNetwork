@@ -286,10 +286,10 @@ def admin_dashboard() -> str | WerkzeugResponse:
             return redirect(url_for("admin_dashboard", server_message="Wrong admin magic!"))
     
     if not user_manager.UserManager().get_user_level(session["user_id"]) == user_manager.UserLevel.ADMIN:
-        return renderer.render_template("admin_magic.html")
+        return renderer.get_template("admin_magic.html")
     
     else:
-        return renderer.render_template("admin_dashboard.html")
+        return renderer.get_template("admin_dashboard.html")
 
 
 @app.route("/admin/demo/data/friendship", methods=["GET"])
