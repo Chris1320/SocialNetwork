@@ -1,31 +1,92 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-{% block title %}Create a New Account - {{ BRAND_NAME }}{% endblock %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" />
+    </head>
+    <body>
+        {% for message in get_flashed_messages() %}
+        <script>
+            alert("{{ message }}");
+        </script>
+        {% endfor %}
+        <div class="signup">
+            <form action="{{ url_for('register') }}" method="post">
+                <img
+                    class="signup-child"
+                    alt=""
+                    src="{{ url_for('static', filename='media/register/rectangle-29.svg') }}"
+                />
 
-{% block main %}
-<h1>{{ BRAND_NAME }} - Register</h1>
-{% if error %}
-<p class="error">{{ error }}</p>
-{% endif %}
-<form action="/register" method="POST">
-    <div>
-        <table>
-            <tr>
-                <td><label for="username">Username</label></td>
-                <td><input type="text" name="username" id="username" required /></td>
-            </tr>
-            <tr>
-                <td><label for="password">Password</label></td>
-                <td><input type="password" name="password" id="password" required /></td>
-            </tr>
-            <tr>
-                <td><label for="password-confirm">Confirm Password</label></td>
-                <td>
-                    <input type="password" name="password-confirm" id="password-confirm" required />
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="Login" />
-    </div>
-</form>
-{% endblock %}
+                <input
+                    required
+                    class="signup-child2"
+                    name="last-name"
+                    id="last-name"
+                    placeholder="Last Name"
+                    type="text"
+                />
+                <input
+                    required
+                    class="signup-child1"
+                    name="first-name"
+                    id="first-name"
+                    placeholder="First Name"
+                    type="text"
+                />
+                <input class="frame-input" name="email" id="email" placeholder="Email" type="tel" />
+                <input class="signup-item" name="address" id="address" placeholder="Address" type="text" />
+                <input
+                    class="signup-inner"
+                    name="phone-number"
+                    id="phone-number"
+                    placeholder="Phone Number"
+                    type="tel"
+                />
+
+                <input
+                    required
+                    class="signup-child5"
+                    name="username"
+                    id="username"
+                    placeholder="Username"
+                    type="text"
+                />
+                <input
+                    required
+                    class="signup-child6"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    type="password"
+                />
+                <input
+                    required
+                    class="signup-child3"
+                    name="password-confirm"
+                    id="password-confirm"
+                    placeholder="Confirm Password"
+                    type="password"
+                />
+
+                <div class="rectangle-div"></div>
+                <button class="sign-up-wrapper">
+                    <b class="sign-up">Register</b>
+                </button>
+            </form>
+            <img
+                class="logo-iteration-1-1"
+                alt=""
+                src="{{ url_for('static', filename='media/register/logo--iteration-1-1@2x.png') }}"
+            />
+
+            <a href="{{ url_for('index') }}" class="social-network">{{ BRAND_NAME }}</a>
+            <div class="signup-child4"></div>
+            <img class="line-icon" alt="" src="{{ url_for('static', filename='media/register/line-8.svg') }}" />
+        </div>
+    </body>
+</html>

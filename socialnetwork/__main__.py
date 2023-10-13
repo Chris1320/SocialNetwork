@@ -216,9 +216,8 @@ def register() -> str | WerkzeugResponse:
         password_confirm: str = request.form["password-confirm"]
 
         if password != password_confirm:
-            return renderer.get_template(
-                "register.html", error="Passwords do not match."
-            )
+            flash("Passwords do not match.")
+            return renderer.get_template("register.html")
 
         else:
             try:
@@ -229,28 +228,14 @@ def register() -> str | WerkzeugResponse:
                     session["logged_in"] = True
                     session["user_id"] = user_id
                     session["username"] = username
-                    return redirect(url_for("welcome"))
+                    user_manager.UserManager().update_user_info(session["user_id"], **request.form)
+                    return redirect(url_for("index", welcomed=True))
 
             except ValueError as error:
-                return renderer.get_template("register.html", error=str(error))
+                flash(str(error))
+                return renderer.get_template("register.html")
 
     return renderer.get_template("register.html")
-
-
-@app.route("/welcome", methods=["GET", "POST"])
-def welcome() -> str | WerkzeugResponse:
-    """
-    Show the welcome page, asking the user for their information.
-    """
-
-    if not session.get("logged_in"):
-        return redirect(url_for("index"))
-
-    if request.method == "POST":
-        user_manager.UserManager().update_user_info(session["user_id"], **request.form)
-        return redirect(url_for("index", welcomed=True))
-
-    return renderer.get_template("welcome.html")
 
 
 @app.route("/post", methods=["POST"])

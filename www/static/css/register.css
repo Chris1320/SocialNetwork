@@ -1,0 +1,222 @@
+.signup-child {
+  position: absolute;
+  top: 275px;
+  left: 83px;
+  border-radius: var(--br-11xl);
+  width: 1274px;
+  height: 419px;
+}
+.frame-input,
+.signup-child1,
+.signup-child2,
+.signup-child3,
+.signup-inner,
+.signup-item {
+  border: 1px solid var(--color-gray);
+  font-family: var(--font-roboto);
+  font-size: var(--font-size-base);
+  background-color: transparent;
+  position: absolute;
+  top: 529px;
+  left: 111px;
+  border-radius: var(--br-11xl);
+  box-sizing: border-box;
+  width: 571px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--padding-3xs);
+}
+.frame-input,
+.signup-child1,
+.signup-child2,
+.signup-child3,
+.signup-inner {
+  top: 597px;
+}
+.frame-input,
+.signup-child1,
+.signup-child2,
+.signup-child3 {
+  top: 461px;
+}
+.signup-child1,
+.signup-child2,
+.signup-child3 {
+  top: 393px;
+}
+.signup-child2,
+.signup-child3 {
+  top: 325px;
+}
+.signup-child3 {
+  top: 499px;
+  left: 745px;
+  height: 62px;
+  justify-content: flex-start;
+}
+.rectangle-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0 0 var(--br-mini) var(--br-mini);
+  background-color: var(--color-white);
+  width: 1440px;
+  height: 84px;
+}
+.sign-up {
+  position: relative;
+  font-size: 32px;
+  font-family: var(--font-roboto);
+  color: var(--color-white);
+  text-align: left;
+}
+.logo-iteration-1-1,
+.sign-up-wrapper {
+  position: absolute;
+  border-radius: var(--br-xl);
+}
+.sign-up-wrapper {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: #50c6ff;
+  top: 589px;
+  left: 915px;
+  width: 231px;
+  height: 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.logo-iteration-1-1 {
+  top: 21px;
+  left: 558px;
+  width: 47.19px;
+  height: 42px;
+  object-fit: cover;
+}
+.social-network {
+  text-decoration: none;
+  position: absolute;
+  top: 23px;
+  left: 631px;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--linkedin-color);
+  display: inline-block;
+  width: 250px;
+  height: 40px;
+}
+.signup-child4 {
+  position: absolute;
+  top: 906px;
+  left: 0;
+  border-radius: var(--br-xl) var(--br-xl) 0 0;
+  background-color: var(--color-white);
+  width: 1440px;
+  height: 118px;
+}
+.videos {
+  position: absolute;
+  top: 976px;
+  left: 432px;
+}
+.about,
+.log-in,
+.messenger,
+.photos {
+  position: absolute;
+  top: 976px;
+  left: 501px;
+}
+.about,
+.log-in,
+.messenger {
+  left: 207px;
+}
+.about,
+.messenger {
+  left: 271px;
+}
+.messenger {
+  left: 334px;
+}
+.english-us,
+.line-icon,
+.sign-up1 {
+  position: absolute;
+  top: 976px;
+  left: 132px;
+}
+.english-us,
+.line-icon {
+  top: 939px;
+}
+.line-icon {
+  top: 964.5px;
+  left: 120px;
+  width: 1200px;
+  height: 4.46px;
+}
+.bisaya,
+.filipino,
+.signup-child5 {
+  position: absolute;
+  top: 939px;
+  left: 233px;
+}
+.bisaya,
+.signup-child5 {
+  left: 301px;
+}
+.signup-child5 {
+  border: 1px solid var(--color-gray);
+  font-size: var(--font-size-base);
+  background-color: transparent;
+  top: 325px;
+  left: 745px;
+  border-radius: var(--br-11xl);
+  box-sizing: border-box;
+  width: 571px;
+  height: 62px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--padding-3xs);
+}
+.signup,
+.signup-child5,
+.signup-child6 {
+  font-family: var(--font-roboto);
+}
+.signup-child6 {
+  border: 1px solid var(--color-gray);
+  font-size: var(--font-size-base);
+  background-color: transparent;
+  position: absolute;
+  top: 412px;
+  left: 745px;
+  border-radius: var(--br-11xl);
+  box-sizing: border-box;
+  width: 571px;
+  height: 62px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--padding-3xs);
+}
+.signup {
+  position: relative;
+  background: linear-gradient(116.82deg, #3dcffd, rgba(246, 246, 246, 0));
+  width: 100%;
+  height: 1024px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-mini);
+  color: var(--color-silver);
+}
