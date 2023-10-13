@@ -2,7 +2,7 @@ import logging
 from time import strftime
 from typing import Final
 
-from flask import Flask, abort, redirect, request, session, url_for
+from flask import Flask, abort, flash, redirect, request, session, url_for
 from werkzeug.wrappers import Response as WerkzeugResponse
 
 from flask_session import Session
@@ -87,10 +87,14 @@ def people() -> str | WerkzeugResponse:
     friends = user_manager.UserManager().get_friends_list(session["user_id"])
     users_with_friend_status: list[dict[str, str | bool]] = users.copy()  # type: ignore
     for idx, user in enumerate(users):
-            users_with_friend_status[idx]["is_friend"] = True if user["user_id"] in friends else False
-            users_with_friend_status[idx]["is_self"] = user["user_id"] == session["user_id"]
+        users_with_friend_status[idx]["is_friend"] = (
+            True if user["user_id"] in friends else False
+        )
+        users_with_friend_status[idx]["is_self"] = user["user_id"] == session["user_id"]
 
-    return renderer.get_template("people.html", users=users_with_friend_status, server_message=server_message)
+    return renderer.get_template(
+        "people.html", users=users_with_friend_status, server_message=server_message
+    )
 
 
 @app.route("/people/add", methods=["GET"])
@@ -106,6 +110,7 @@ def add_friend() -> str | WerkzeugResponse:
     user_manager.UserManager().friend_add(session["user_id"], friend_id)
 
     return redirect(url_for("people", server_message="Friend added!"))
+
 
 @app.route("/people/remove", methods=["GET"])
 def remove_friend() -> str | WerkzeugResponse:
@@ -173,10 +178,12 @@ def login() -> str | WerkzeugResponse:
                 session["username"] = username
                 return redirect(url_for("index"))
 
-            return renderer.get_template("login.html", error="Wrong username/password!")
+            flash("Invalid username or password.")
+            return renderer.get_template("login.html")
 
         except ValueError as error:
-            return renderer.get_template("login.html", error=str(error))
+            flash(str(error))
+            return renderer.get_template("login.html")
 
     return renderer.get_template("login.html")
 
@@ -279,15 +286,22 @@ def admin_dashboard() -> str | WerkzeugResponse:
 
     if request.method == "POST":
         if request.form["magic"] == info.Server.admin_magic:
-            user_manager.UserManager().set_user_level(session["user_id"], user_manager.UserLevel.ADMIN)
+            user_manager.UserManager().set_user_level(
+                session["user_id"], user_manager.UserLevel.ADMIN
+            )
             return redirect(url_for("admin_dashboard"))
 
         else:
-            return redirect(url_for("admin_dashboard", server_message="Wrong admin magic!"))
-    
-    if not user_manager.UserManager().get_user_level(session["user_id"]) == user_manager.UserLevel.ADMIN:
+            return redirect(
+                url_for("admin_dashboard", server_message="Wrong admin magic!")
+            )
+
+    if (
+        not user_manager.UserManager().get_user_level(session["user_id"])
+        == user_manager.UserLevel.ADMIN
+    ):
         return renderer.get_template("admin_magic.html")
-    
+
     else:
         return renderer.get_template("admin_dashboard.html")
 
@@ -298,18 +312,29 @@ def admin_friendship_dsa() -> str:
     Show the adjacency matrix of the friendship graph.
     """
 
-    if not session.get("logged_in") or not user_manager.UserManager().get_user_level(session["user_id"]) == user_manager.UserLevel.ADMIN:
+    if (
+        not session.get("logged_in")
+        or not user_manager.UserManager().get_user_level(session["user_id"])
+        == user_manager.UserLevel.ADMIN
+    ):
         return abort(403)
 
     users = user_manager.UserManager()._run("SELECT * FROM users")
     friendships = user_manager.UserManager()._run("SELECT * FROM friendships")
 
     # Create a matrix of all users, each record containing a value of 1 if the users are friends.
-    matrix: list[list[int]] = [[0 for _ in range(len(users))] for _ in range(len(users))]
+    matrix: list[list[int]] = [
+        [0 for _ in range(len(users))] for _ in range(len(users))
+    ]
     for friendship in friendships:
         matrix[friendship[0] - 1][friendship[1] - 1] = 1
 
-    return renderer.get_template("admin_friendship_dsa.html", col_length=range(len(matrix[0])), matrix=matrix, users=users)
+    return renderer.get_template(
+        "admin_friendship_dsa.html",
+        col_length=range(len(matrix[0])),
+        matrix=matrix,
+        users=users,
+    )
 
 
 if __name__ == "__main__":

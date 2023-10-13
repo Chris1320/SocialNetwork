@@ -1,24 +1,65 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-{% block title %}Login - {{ BRAND_NAME }}{% endblock %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" />
+    </head>
+    <body>
+        {% for message in get_flashed_messages() %}
+        <script>
+            alert("{{ message }}");
+        </script>
+        {% endfor %}
+        <div class="loginform">
+            <div class="header">
+                <div class="header-child"></div>
+                <div class="logo">
+                    <img
+                        class="logo-iteration-1-1"
+                        alt=""
+                        src="{{ url_for('static', filename='media/login/logo--iteration-1-1@2x.png') }}"
+                    />
+                </div>
+                <a href="{{ url_for('index') }}" class="social-network">{{ BRAND_NAME }}</a>
+            </div>
+            <form action="{{ url_for('login') }}" method="post" class="content">
+                <img
+                    class="content-child"
+                    alt=""
+                    src="{{ url_for('static', filename='media/login/rectangle-29.svg') }}"
+                />
 
-{% block main %}
-<h1>{{ BRAND_NAME }} - Login</h1>
-{% if error %}
-<p class="error">{{ error }}</p>
-{% endif %}
-<form action="/login" method="POST">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required />
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required />
-    </div>
-    <div>
-        <input type="submit" value="Login" />
-    </div>
-</form>
-<small><a href="{{ url_for('register') }}">Not yet registered?</a></small>
-{% endblock %}
+                <button type="submit" class="rectangle-parent" id="login">
+                    <div class="group-child"></div>
+                    <b class="sign-up">Log In</b>
+                </button>
+                <a href="{{ url_for('register') }}"
+                <button class="rectangle-group" id="register">
+                    <div class="group-child"></div>
+                    <b class="sign-up1">Register</b>
+                </button>
+                </a>
+                <b class="welcome-to-social-container">
+                    <p class="welcome-to">
+                        <span class="welcome-to1">Welcome to</span>
+                        <span class="span"> </span>
+                    </p>
+                    <p class="social-network1">{{ BRAND_NAME }}</p>
+                </b>
+                <img class="content-item" alt="" src="{{ url_for('static', filename='media/login/line-7.svg') }}" />
+
+                <input class="content-inner" name="username" id="username" placeholder="Username" type="text" />
+
+                <input class="frame-input" name="password" id="password" placeholder="Password" type="password" />
+            </form>
+            <div class="footer">
+                <div class="footer-child"></div>
+                <img class="footer-item" alt="" src="{{ url_for('static', filename='media/login/line-8.svg') }}" />
+            </div>
+        </div>
+    </body>
+</html>

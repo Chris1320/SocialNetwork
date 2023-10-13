@@ -1,0 +1,207 @@
+.header-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0 0 var(--br-mini) var(--br-mini);
+    background-color: var(--color-white);
+    width: 1440px;
+    height: 84px;
+}
+.logo,
+.logo-iteration-1-1,
+.social-network {
+    position: absolute;
+    width: 47.19px;
+    height: 42px;
+}
+.logo-iteration-1-1 {
+    top: 0;
+    left: 0;
+    border-radius: var(--br-xl);
+    object-fit: cover;
+}
+.logo,
+.social-network {
+    top: 21px;
+    left: 558px;
+}
+.social-network {
+    text-decoration: none;
+    top: 23px;
+    left: 631px;
+    font-weight: 700;
+    color: inherit;
+    display: inline-block;
+    width: 250px;
+    height: 40px;
+}
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1440px;
+    height: 84px;
+    overflow: hidden;
+}
+.content-child,
+.group-child {
+    position: absolute;
+    top: 61px;
+    left: 707px;
+    border-radius: var(--br-11xl);
+    width: 602px;
+    height: 396px;
+}
+.group-child {
+    top: 0;
+    left: 0;
+    border-radius: var(--br-xl);
+    background-color: var(--color-deepskyblue-100);
+    width: 231px;
+    height: 54px;
+}
+.sign-up {
+    position: absolute;
+    top: 8px;
+    left: 71px;
+    font-size: var(--font-size-13xl);
+    font-family: var(--font-roboto);
+    color: var(--color-white);
+    text-align: left;
+}
+.rectangle-parent {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 350px;
+    left: 753px;
+    width: 231px;
+    height: 54px;
+}
+.sign-up1 {
+    position: absolute;
+    top: 8.38px;
+    left: 59px;
+    font-size: var(--font-size-13xl);
+    font-family: var(--font-roboto);
+    color: var(--color-white);
+    text-align: left;
+}
+.rectangle-group {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 349.62px;
+    left: 1008px;
+    width: 231px;
+    height: 54px;
+}
+.welcome-to1 {
+    font-size: 100px;
+}
+.span {
+    font-size: var(--font-size-45xl);
+}
+.welcome-to {
+    margin: 0;
+}
+.social-network1 {
+    margin: 0;
+    font-size: var(--font-size-45xl);
+}
+.welcome-to-social-container {
+    position: absolute;
+    top: 107px;
+    left: 0;
+    display: inline-block;
+    font-family: var(--font-roboto);
+    color: var(--color-white);
+    text-align: left;
+    width: 556px;
+    height: 187px;
+}
+.content-inner,
+.content-item,
+.frame-input {
+    position: absolute;
+    top: 300.62px;
+    left: 722px;
+    width: 571px;
+    height: 1px;
+}
+.content-inner,
+.frame-input {
+    border: 1px solid var(--color-gray);
+    font-family: var(--font-roboto);
+    font-size: var(--font-size-base);
+    background-color: transparent;
+    top: 107px;
+    border-radius: var(--br-11xl);
+    box-sizing: border-box;
+    height: 62px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--padding-3xs);
+}
+.frame-input {
+    top: 203px;
+}
+.content {
+    position: absolute;
+    top: 284px;
+    left: 75px;
+    width: 1309px;
+    height: 457px;
+    overflow: hidden;
+}
+.footer-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--br-xl) var(--br-xl) 0 0;
+    background-color: var(--color-white);
+    width: 1440px;
+    height: 118px;
+}
+.footer-items {
+    text-decoration: none;
+    position: absolute;
+    top: 70px;
+    font-weight: 700;
+    color: inherit;
+}
+
+.footer,
+.footer-item {
+    position: absolute;
+    top: 58.5px;
+    left: 120px;
+    width: 1200px;
+    height: 4.46px;
+}
+.footer {
+    top: 906px;
+    left: 0;
+    width: 1440px;
+    height: 118px;
+    overflow: hidden;
+    font-size: var(--font-size-mini);
+    color: var(--color-silver);
+}
+.loginform {
+    position: relative;
+    background: linear-gradient(116.43deg, #3dcffd, rgba(246, 246, 246, 0));
+    width: 100%;
+    height: 1024px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 36px;
+    color: var(--linkedin-color);
+    font-family: var(--font-roboto);
+}

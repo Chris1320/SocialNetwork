@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+:root {
+  /* fonts */
+  --font-roboto: Roboto;
+
+  /* font sizes */
+  --font-size-mini: 15px;
+  --font-size-base: 16px;
+  --font-size-45xl: 64px;
+  --font-size-13xl: 32px;
+
+  /* Colors */
+  --color-silver: #b7b7b7;
+  --color-white: #fff;
+  --color-gray: #929292;
+  --color-deepskyblue-100: #50c6ff;
+  --linkedin-color: #00acff;
+
+  /* Paddings */
+  --padding-3xs: 10px;
+
+  /* Border radiuses */
+  --br-xl: 20px;
+  --br-11xl: 30px;
+  --br-mini: 15px;
+}
