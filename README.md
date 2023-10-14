@@ -2,16 +2,17 @@
 
 A Social Network System. (COMP4)
 
+**Authors**:
+- Christopher Andrei Tayao
+- Tenchie M. Adolfo
+
 ## Features
 
 - [X] User Registration
 - [X] User Login
-- [ ] Update User Information
 - [X] Posting Text
-- [ ] Editing Posts
-- [ ] Search Posts
-- [ ] Deleting Posts
-- [ ] Filter/Sort Newsfeed
+- [X] Search Posts
+- [X] Filter/Sort Newsfeed
 
 ## Running the System
 
