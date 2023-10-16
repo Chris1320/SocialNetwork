@@ -55,12 +55,12 @@ class DatabaseManager:
             """
         )
         cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS friendships (
-            user_id1 INTEGER, user_id2 INTEGER,
-            PRIMARY KEY (user_id1, user_id2),
-            FOREIGN KEY(user_id1) REFERENCES users(id),
-            FOREIGN KEY(user_id2) REFERENCES users(id)
-        )
-        """
+            """
+            CREATE TABLE IF NOT EXISTS friendships (
+                user_id1 INTEGER, user_id2 INTEGER,
+                PRIMARY KEY (user_id1, user_id2),
+                FOREIGN KEY(user_id1) REFERENCES users(id),
+                FOREIGN KEY(user_id2) REFERENCES users(id)
+            )
+            """
         )

@@ -6,13 +6,7 @@ from flask import Flask, abort, flash, redirect, request, session, url_for
 from werkzeug.wrappers import Response as WerkzeugResponse
 
 from flask_session import Session
-from socialnetwork.core import (
-    database_manager,
-    info,
-    post_manager,
-    renderer,
-    user_manager,
-)
+from socialnetwork.core import info, post_manager, renderer, user_manager
 
 # Set up the logger.
 logger: Final[logging.Logger] = logging.getLogger(__name__)
@@ -62,6 +56,13 @@ def index() -> str | WerkzeugResponse:
     )
 
     posts: list[dict[str, str]] = post_manager.PostManager().get_posts()
+    if request.args.get("search", None) is not None:
+        posts = [
+            post
+            for post in posts
+            if request.args["search"].lower() in post["content"].lower()
+        ]
+
     return renderer.get_template(
         "newsfeed.html",
         server_message=server_message,
@@ -228,7 +229,9 @@ def register() -> str | WerkzeugResponse:
                     session["logged_in"] = True
                     session["user_id"] = user_id
                     session["username"] = username
-                    user_manager.UserManager().update_user_info(session["user_id"], **request.form)
+                    user_manager.UserManager().update_user_info(
+                        session["user_id"], **request.form
+                    )
                     return redirect(url_for("index", welcomed=True))
 
             except ValueError as error:
@@ -320,13 +323,3 @@ def admin_friendship_dsa() -> str:
         matrix=matrix,
         users=users,
     )
-
-
-if __name__ == "__main__":
-    # Prepare the database if it doesn't exist.
-    if not info.Filepath.database.exists():
-        logger.info("Database does not exist. Creating it now.")
-        database_manager.DatabaseManager().initialize_database()
-
-    logger.info("Starting the server.")
-    app.run(host=info.Server.host, port=info.Server.port, debug=info.Server.debug)

@@ -20,5 +20,5 @@ class Server:
     port: int = 5000
     debug: bool = True
     log_format: str = "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
-    with open(Filepath.admin_magic, 'r') as fopen:
+    with open(Filepath.admin_magic, "r") as fopen:
         admin_magic: str = fopen.readline().lstrip().rstrip()

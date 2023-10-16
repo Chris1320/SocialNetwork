@@ -6,6 +6,15 @@
 
 {% block main %}
 <h1 style="padding-left: 10%;color: white;">Welcome, {{ session.get('username') }}!</h1>
+{% if request.args.get("search") %}
+<h2 style="padding-left: 10%;color: white;">Search results for "{{ request.args.get('search') }}":</h2>
+{% endif %}
+<div class="card">
+    <form action="/", method="GET">
+        <input style="padding-right: 50%;" type="text" name="search" id="search" placeholder="Search text in post">
+        <input type="submit" value="Search">
+    </form>
+</div>
 <div class="card">
 <form action="/post" , method="POST">
     <div>
